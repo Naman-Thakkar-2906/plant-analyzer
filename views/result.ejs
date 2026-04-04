@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Result</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #eef5f0, #e6f4ea);
+        padding: 20px;
+        color: #2c3e50;
+      }
+
+      .container {
+        max-width: 950px;
+        margin: auto;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 28px;
+        font-weight: 600;
+      }
+
+      /* Card */
+      .card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        transition: 0.3s;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      /* Image */
+      .image-box {
+        text-align: center;
+      }
+
+      .image-box img {
+        max-width: 100%;
+        max-height: 350px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+
+      /* ❌ REMOVE fixed width/height issue */
+      img {
+        height: auto;
+        width: auto;
+      }
+
+      /* Grid */
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      /* Sections */
+      .section {
+        background: #f9fbfa;
+        padding: 18px;
+        border-radius: 10px;
+        border-left: 6px solid #4caf50;
+        transition: 0.3s;
+      }
+
+      .section:hover {
+        background: #f1f8f4;
+        transform: translateY(-3px);
+      }
+
+      .section h3 {
+        margin-bottom: 10px;
+        color: #2e7d32;
+        font-size: 16px;
+      }
+
+      .section p {
+        line-height: 1.6;
+        font-size: 14px;
+        color: #444;
+      }
+
+      .full {
+        grid-column: span 2;
+      }
+
+      /* Actions */
+      .actions {
+        text-align: center;
+        margin-top: 25px;
+      }
+
+      button {
+        padding: 12px 22px;
+        margin: 6px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #4caf50, #66bb6a);
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: linear-gradient(135deg, #388e3c, #4caf50);
+        transform: scale(1.05);
+      }
+
+      /* Responsive */
+      @media (max-width: 700px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .full {
+          grid-column: span 1;
+        }
+
+        h1 {
+          font-size: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🌿 Plant Analysis Result</h1>
+
+      <!-- Image -->
+      <div class="card image-box">
+        <img src="<%= image %>" alt="Plant Image" />
+      </div>
+
+      <!-- Structured Data -->
+      <div class="card">
+        <div class="grid">
+          <div class="section">
+            <h3>🌿 Species</h3>
+            <p><%= data.species %></p>
+          </div>
+
+          <div class="section">
+            <h3>💚 Health</h3>
+            <p><%= data.health %></p>
+          </div>
+
+          <div class="section full">
+            <h3>💡 Care Recommendations</h3>
+            <p><%= data.care %></p>
+          </div>
+
+          <div class="section full">
+            <h3>📊 Characteristics</h3>
+            <p><%= data.characteristics %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <form action="/download" method="POST">
+          <textarea name="result" style="display: none">
+
+Species Identification:
+<%= data.species %>
+
+Plant Health:
+<%= data.health %>
+
+Care Recommendations:
+<%= data.care %>
+
+Characteristics:
+<%= data.characteristics %>
+    </textarea
+          >
+          <button type="submit">Download PDF</button>
+        </form>
+
+        <a href="/">
+          <button>Analyze Another</button>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Analyzer</title>
+
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+  }
+
+  body {
+    background: linear-gradient(135deg, #f0f4f2, #e8f5e9);
+    color: #2c3e50;
+  }
+
+  /* Navbar */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 50px;
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  nav a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    position: relative;
+    transition: 0.3s;
+  }
+
+  nav a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    left: 0;
+    bottom: -4px;
+    background: white;
+    transition: 0.3s;
+  }
+
+  nav a:hover::after {
+    width: 100%;
+  }
+
+  /* Hero Section */
+  .hero {
+    text-align: center;
+    padding: 80px 20px 60px;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  .hero p {
+    font-size: 17px;
+    margin-bottom: 30px;
+    color: #555;
+  }
+
+  /* Upload Box */
+  .upload-box {
+    background: white;
+    padding: 30px;
+    max-width: 420px;
+    margin: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: 0.3s;
+  }
+
+  .upload-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  }
+
+  input[type="file"] {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #4caf50, #66bb6a);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    background: linear-gradient(135deg, #388e3c, #4caf50);
+    transform: scale(1.03);
+  }
+
+  /* Sections */
+  .section {
+    padding: 50px 20px;
+    text-align: center;
+  }
+
+  .section h2 {
+    margin-bottom: 15px;
+    font-size: 26px;
+  }
+
+  .features {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+  }
+
+  .card {
+    background: white;
+    padding: 25px;
+    width: 260px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transition: 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  }
+
+  /* Footer */
+  footer {
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    color: white;
+    text-align: center;
+    padding: 18px;
+    margin-top: 40px;
+    font-size: 14px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 28px;
+    }
+
+    .upload-box {
+      width: 90%;
+    }
+
+    .features {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+  <!-- Navbar -->
+
+  <header>
+    <h2>🌿 Plant Analyzer</h2>
+    <!-- <nav>
+      <a href="/login">Login</a>
+      <a href="/signup">Signup</a>
+    </nav> -->
+  </header>
+
+  <!-- Hero Section -->
+
+  <section class="hero">
+    <h1>Analyze Your Plant Health Instantly</h1>
+    <p>Upload a plant image and detect diseases using AI in seconds.</p>
+
+<div class="upload-box">
+  <form action="/analyze" method="POST" enctype="multipart/form-data">
+    <input type="file" name="image" required>
+    <button type="submit">Analyze Plant</button>
+  </form>
+</div>
+
+  </section>
+
+  <!-- Features -->
+
+  <section class="section">
+    <h2>Features</h2>
+    <div class="features">
+      <div class="card">🌿 AI-based Detection</div>
+      <div class="card">⚡ Fast Results</div>
+      <div class="card">📄 PDF Reports</div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+
+  <section class="section">
+    <h2>How It Works</h2>
+    <p>Upload → Analyze → Get Result → Download PDF</p>
+  </section>
+
+  <!-- Footer -->
+
+  <footer>
+    <p>&copy; 2026 Plant Analyzer</p>
+  </footer>
+
+</body>
+</html>
