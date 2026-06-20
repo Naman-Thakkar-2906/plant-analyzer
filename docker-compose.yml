@@ -3,7 +3,7 @@ services:
     build: .
     container_name: plant_analyzer
     ports:
-      -"4000:4000"
+      - "4000:4000"
     env_file:
       - .env
     restart: unless-stopped
