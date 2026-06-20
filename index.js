@@ -15,7 +15,7 @@ app.set("view engine", "ejs");
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-const upload = multer({ dest: "/uploads" });
+const upload = multer({ dest: "uploads/" });
 
 const PORT = process.env.PORT || 4000;
 
@@ -55,31 +55,62 @@ app.post("/analyze", upload.single("image"), async (req, res) => {
     const imgPath = req.file.path;
     const imgData = await fsPromises.readFile(imgPath, { encoding: "base64" });
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    let result;
+    let usedModel = "Gemini 2.5 Flash";
+    
+    try {
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      result = await model.generateContent([
+        `Analyze this plant image and respond ONLY in this exact format:
 
-    const result = await model.generateContent([
-      `Analyze this plant image and respond ONLY in this exact format:
+             Species Identification:
+             <content>
 
-            Species Identification:
-            <content>
+             Plant Health:
+             <content>
 
-            Plant Health:
-            <content>
+             Care Recommendations:
+             <content>
 
-            Care Recommendations:
-            <content>
+             Characteristics:
+             <content>
 
-            Characteristics:
-            <content>
-
-            Do not add extra text or formatting.`,
-      {
-        inlineData: {
-          mimeType: req.file.mimetype,
-          data: imgData,
+             Do not add extra text or formatting.`,
+        {
+          inlineData: {
+            mimeType: req.file.mimetype,
+            data: imgData,
+          },
         },
-      },
-    ]);
+      ]);
+    } catch (apiError) {
+      console.warn("Gemini 2.5 Flash failed or busy, falling back to Gemini 2.5 Flash:", apiError.message);
+      usedModel = "Gemini 2.5 Flash";
+      const modelFallback = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      result = await modelFallback.generateContent([
+        `Analyze this plant image and respond ONLY in this exact format:
+
+             Species Identification:
+             <content>
+
+             Plant Health:
+             <content>
+
+             Care Recommendations:
+             <content>
+
+             Characteristics:
+             <content>
+
+             Do not add extra text or formatting.`,
+        {
+          inlineData: {
+            mimeType: req.file.mimetype,
+            data: imgData,
+          },
+        },
+      ]);
+    }
 
     const plantInfo = result.response.text();
     const formatted = formatResult(plantInfo);
@@ -90,6 +121,7 @@ app.post("/analyze", upload.single("image"), async (req, res) => {
     res.render("result", {
       data: formatted,
       image: `data:${req.file.mimetype};base64,${imgData}`,
+      modelName: usedModel
     });
   } catch (e) {
     console.error("Error analyzing image:", e);
@@ -196,6 +228,6 @@ app.post(
   },
 );
 
-app.listen(PORT, () => {
-  console.log(`Application is running on http://localhost:${PORT}`);
-});
+app.listen(4000, () =>
+  console.log("The app is running on http://localhost:4000"),
+);
