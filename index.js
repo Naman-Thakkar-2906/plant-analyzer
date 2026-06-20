@@ -12,7 +12,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const app = express();
 app.use(express.static("public"));
 app.set("view engine", "ejs");
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 const upload = multer({ dest: "uploads/" });
@@ -57,7 +57,7 @@ app.post("/analyze", upload.single("image"), async (req, res) => {
 
     let result;
     let usedModel = "Gemini 2.5 Flash";
-    
+
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       result = await model.generateContent([
@@ -84,9 +84,14 @@ app.post("/analyze", upload.single("image"), async (req, res) => {
         },
       ]);
     } catch (apiError) {
-      console.warn("Gemini 2.5 Flash failed or busy, falling back to Gemini 2.5 Flash:", apiError.message);
+      console.warn(
+        "Gemini 2.5 Flash failed or busy, falling back to Gemini 2.5 Flash:",
+        apiError.message,
+      );
       usedModel = "Gemini 2.5 Flash";
-      const modelFallback = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      const modelFallback = genAI.getGenerativeModel({
+        model: "gemini-2.5-flash",
+      });
       result = await modelFallback.generateContent([
         `Analyze this plant image and respond ONLY in this exact format:
 
@@ -121,7 +126,7 @@ app.post("/analyze", upload.single("image"), async (req, res) => {
     res.render("result", {
       data: formatted,
       image: `data:${req.file.mimetype};base64,${imgData}`,
-      modelName: usedModel
+      modelName: usedModel,
     });
   } catch (e) {
     console.error("Error analyzing image:", e);
